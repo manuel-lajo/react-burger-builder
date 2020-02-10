@@ -1,16 +1,9 @@
 import React from 'react';
 
-import Wrapper from '../../../hoc/Wrapper';
+import Wrapper from '../../../hoc/Wrapper/Wrapper';
 import Button from '../../UI/Button/Button';
 
-// class OrderSummary extends Component {
 const orderSummary = props => {
-  // This could be a functional component, doesn't have to be a class
-  // componentWillUpdate() {
-  //   console.log('[OrderSummary] WillUpdate');
-  // }
-
-  // render () {
   const ingredientSummary = Object.keys( props.ingredients )
     .map( igKey => {
       return (
@@ -32,7 +25,6 @@ const orderSummary = props => {
       <Button btnType="Success" clicked={props.purchaseContinued}>CONTINUE</Button>
     </Wrapper>
   );
-  // }
 }
 
 export default orderSummary;
