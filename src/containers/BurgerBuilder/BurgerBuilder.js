@@ -87,27 +87,36 @@ class BurgerBuilder extends Component {
   }
 
   purchaseContinueHandler = () => {
-    this.setState({ loading: true });
-    const order = {
-      ingredients: this.state.ingredients,
-      price: this.state.price,
-      customer: {
-        name: 'Manuel L.',
-        address: {
-          street: 'Elm',
-          zipCode: '12345',
-          country: 'Peru'
-        },
-        email: 'manuel@gmail.com'
-      },
-      deliveryMethod: 'fastest'
-    };
-    axios.post('orders.json', order)
-      .then(response => {
-        this.setState({ loading: false, purchasing: false });
-      }).catch( _ => {
-        this.setState({ loading: false, purchasing: false });
-      });
+    // this.setState({ loading: true });
+    // const order = {
+    //   ingredients: this.state.ingredients,
+    //   price: this.state.price,
+    //   customer: {
+    //     name: 'Manuel L.',
+    //     address: {
+    //       street: 'Elm',
+    //       zipCode: '12345',
+    //       country: 'Peru'
+    //     },
+    //     email: 'manuel@gmail.com'
+    //   },
+    //   deliveryMethod: 'fastest'
+    // };
+    // axios.post('orders.json', order)
+    //   .then(response => {
+    //     this.setState({ loading: false, purchasing: false });
+    //   }).catch( _ => {
+    //     this.setState({ loading: false, purchasing: false });
+    //   });
+    const queryParams = [];
+    for (let i in this.state.ingredients) {
+        queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
+    }
+    const queryString = queryParams.join('&');
+    this.props.history.push({
+        pathname: '/checkout',
+        search: '?' + queryString
+    });
   }
 
   render() {
@@ -124,13 +133,13 @@ class BurgerBuilder extends Component {
       burger = (
         <Wrapper>
           <Burger ingredients={this.state.ingredients} />
-            <BuildControls
-              ingredientAdded={this.addIngredientHandler}
-              ingredientRemoved={this.removeIngredientHandler}
-              disabled={disabledInfo}
-              purchasable={this.state.purchasable}
-              ordered={this.purchaseHandler}
-              price={this.state.totalPrice} />
+          <BuildControls
+            ingredientAdded={this.addIngredientHandler}
+            ingredientRemoved={this.removeIngredientHandler}
+            disabled={disabledInfo}
+            purchasable={this.state.purchasable}
+            ordered={this.purchaseHandler}
+            price={this.state.totalPrice} />
         </Wrapper>
       );
       orderSummary = <OrderSummary 
